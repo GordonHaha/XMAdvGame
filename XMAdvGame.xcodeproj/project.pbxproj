@@ -25,7 +25,6 @@
 		3FAFFF931B5E72D100FB5E2B /* SceondGameScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FAFFF921B5E72D100FB5E2B /* SceondGameScene.m */; };
 		3FAFFF961B5E72EC00FB5E2B /* ThirdGameScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FAFFF951B5E72EC00FB5E2B /* ThirdGameScene.m */; };
 		3FAFFF991B5E733900FB5E2B /* FourthGameScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FAFFF981B5E733900FB5E2B /* FourthGameScene.m */; };
-		3FAFFF9C1B5E735500FB5E2B /* FifthGameScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FAFFF9B1B5E735500FB5E2B /* FifthGameScene.m */; };
 		3FAFFFA41B5E7B0400FB5E2B /* MenuView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FAFFFA31B5E7B0400FB5E2B /* MenuView.m */; };
 		3FAFFFA71B5E7DD300FB5E2B /* MenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FAFFFA61B5E7DD300FB5E2B /* MenuViewController.m */; };
 		3FE1C3031B69C0740033E407 /* 标题.png in Resources */ = {isa = PBXBuildFile; fileRef = 3FE1C3021B69C0740033E407 /* 标题.png */; };
@@ -78,8 +77,6 @@
 		3FAFFF951B5E72EC00FB5E2B /* ThirdGameScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThirdGameScene.m; sourceTree = "<group>"; };
 		3FAFFF971B5E733900FB5E2B /* FourthGameScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FourthGameScene.h; sourceTree = "<group>"; };
 		3FAFFF981B5E733900FB5E2B /* FourthGameScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FourthGameScene.m; sourceTree = "<group>"; };
-		3FAFFF9A1B5E735500FB5E2B /* FifthGameScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FifthGameScene.h; sourceTree = "<group>"; };
-		3FAFFF9B1B5E735500FB5E2B /* FifthGameScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FifthGameScene.m; sourceTree = "<group>"; };
 		3FAFFFA21B5E7B0400FB5E2B /* MenuView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuView.h; sourceTree = "<group>"; };
 		3FAFFFA31B5E7B0400FB5E2B /* MenuView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuView.m; sourceTree = "<group>"; };
 		3FAFFFA51B5E7DD300FB5E2B /* MenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuViewController.h; sourceTree = "<group>"; };
@@ -233,8 +230,6 @@
 				3FAFFF951B5E72EC00FB5E2B /* ThirdGameScene.m */,
 				3FAFFF971B5E733900FB5E2B /* FourthGameScene.h */,
 				3FAFFF981B5E733900FB5E2B /* FourthGameScene.m */,
-				3FAFFF9A1B5E735500FB5E2B /* FifthGameScene.h */,
-				3FAFFF9B1B5E735500FB5E2B /* FifthGameScene.m */,
 				3F56E04C1B60E47E00885D9D /* GameOverScene.h */,
 				3F56E04D1B60E47E00885D9D /* GameOverScene.m */,
 			);
@@ -383,7 +378,6 @@
 				3FAFFF5E1B5DDDB500FB5E2B /* AppDelegate.m in Sources */,
 				3FAFFF5B1B5DDDB500FB5E2B /* main.m in Sources */,
 				3FAFFF901B5E72C400FB5E2B /* FirstGameScene.m in Sources */,
-				3FAFFF9C1B5E735500FB5E2B /* FifthGameScene.m in Sources */,
 				3FAFFFA71B5E7DD300FB5E2B /* MenuViewController.m in Sources */,
 				3F52885F1B6617D4004AA112 /* RootViewController.m in Sources */,
 				3F52885C1B65D44C004AA112 /* TimeManager.m in Sources */,
