@@ -3,7 +3,7 @@
 //  XMAdvGame
 //
 //  Created by lanou on 15/7/21.
-//  Copyright (c) 2015年 龚诚. All rights reserved.
+//  Copyright (c) 2015年 Gordon. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>

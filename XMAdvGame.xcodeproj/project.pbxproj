@@ -22,9 +22,6 @@
 		3FAFFF6B1B5DDDB500FB5E2B /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3FAFFF6A1B5DDDB500FB5E2B /* Images.xcassets */; };
 		3FAFFF7A1B5DDDB600FB5E2B /* XMAdvGameTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FAFFF791B5DDDB600FB5E2B /* XMAdvGameTests.m */; };
 		3FAFFF901B5E72C400FB5E2B /* FirstGameScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FAFFF8F1B5E72C400FB5E2B /* FirstGameScene.m */; };
-		3FAFFF931B5E72D100FB5E2B /* SceondGameScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FAFFF921B5E72D100FB5E2B /* SceondGameScene.m */; };
-		3FAFFF961B5E72EC00FB5E2B /* ThirdGameScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FAFFF951B5E72EC00FB5E2B /* ThirdGameScene.m */; };
-		3FAFFF991B5E733900FB5E2B /* FourthGameScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FAFFF981B5E733900FB5E2B /* FourthGameScene.m */; };
 		3FAFFFA41B5E7B0400FB5E2B /* MenuView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FAFFFA31B5E7B0400FB5E2B /* MenuView.m */; };
 		3FAFFFA71B5E7DD300FB5E2B /* MenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FAFFFA61B5E7DD300FB5E2B /* MenuViewController.m */; };
 		3FE1C3031B69C0740033E407 /* 标题.png in Resources */ = {isa = PBXBuildFile; fileRef = 3FE1C3021B69C0740033E407 /* 标题.png */; };
@@ -71,12 +68,6 @@
 		3FAFFF791B5DDDB600FB5E2B /* XMAdvGameTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XMAdvGameTests.m; sourceTree = "<group>"; };
 		3FAFFF8E1B5E72C400FB5E2B /* FirstGameScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FirstGameScene.h; sourceTree = "<group>"; };
 		3FAFFF8F1B5E72C400FB5E2B /* FirstGameScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FirstGameScene.m; sourceTree = "<group>"; };
-		3FAFFF911B5E72D100FB5E2B /* SceondGameScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SceondGameScene.h; sourceTree = "<group>"; };
-		3FAFFF921B5E72D100FB5E2B /* SceondGameScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SceondGameScene.m; sourceTree = "<group>"; };
-		3FAFFF941B5E72EC00FB5E2B /* ThirdGameScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThirdGameScene.h; sourceTree = "<group>"; };
-		3FAFFF951B5E72EC00FB5E2B /* ThirdGameScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThirdGameScene.m; sourceTree = "<group>"; };
-		3FAFFF971B5E733900FB5E2B /* FourthGameScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FourthGameScene.h; sourceTree = "<group>"; };
-		3FAFFF981B5E733900FB5E2B /* FourthGameScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FourthGameScene.m; sourceTree = "<group>"; };
 		3FAFFFA21B5E7B0400FB5E2B /* MenuView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuView.h; sourceTree = "<group>"; };
 		3FAFFFA31B5E7B0400FB5E2B /* MenuView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuView.m; sourceTree = "<group>"; };
 		3FAFFFA51B5E7DD300FB5E2B /* MenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuViewController.h; sourceTree = "<group>"; };
@@ -138,7 +129,6 @@
 			isa = PBXGroup;
 			children = (
 				3F5288591B65D412004AA112 /* Utils */,
-				3FAFFF881B5DE2D300FB5E2B /* Frameworks */,
 				3FAFFF871B5DE2C200FB5E2B /* Class */,
 				3FAFFF831B5DE1E700FB5E2B /* GameResources */,
 				3FAFFF6A1B5DDDB500FB5E2B /* Images.xcassets */,
@@ -212,24 +202,11 @@
 			name = Class;
 			sourceTree = "<group>";
 		};
-		3FAFFF881B5DE2D300FB5E2B /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
 		3FAFFF891B5DE2EC00FB5E2B /* Scene */ = {
 			isa = PBXGroup;
 			children = (
 				3FAFFF8E1B5E72C400FB5E2B /* FirstGameScene.h */,
 				3FAFFF8F1B5E72C400FB5E2B /* FirstGameScene.m */,
-				3FAFFF911B5E72D100FB5E2B /* SceondGameScene.h */,
-				3FAFFF921B5E72D100FB5E2B /* SceondGameScene.m */,
-				3FAFFF941B5E72EC00FB5E2B /* ThirdGameScene.h */,
-				3FAFFF951B5E72EC00FB5E2B /* ThirdGameScene.m */,
-				3FAFFF971B5E733900FB5E2B /* FourthGameScene.h */,
-				3FAFFF981B5E733900FB5E2B /* FourthGameScene.m */,
 				3F56E04C1B60E47E00885D9D /* GameOverScene.h */,
 				3F56E04D1B60E47E00885D9D /* GameOverScene.m */,
 			);
@@ -370,11 +347,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3FAFFF931B5E72D100FB5E2B /* SceondGameScene.m in Sources */,
 				3FAFFF661B5DDDB500FB5E2B /* GameViewController.m in Sources */,
 				3F56E04E1B60E47E00885D9D /* GameOverScene.m in Sources */,
-				3FAFFF961B5E72EC00FB5E2B /* ThirdGameScene.m in Sources */,
-				3FAFFF991B5E733900FB5E2B /* FourthGameScene.m in Sources */,
 				3FAFFF5E1B5DDDB500FB5E2B /* AppDelegate.m in Sources */,
 				3FAFFF5B1B5DDDB500FB5E2B /* main.m in Sources */,
 				3FAFFF901B5E72C400FB5E2B /* FirstGameScene.m in Sources */,
@@ -489,12 +463,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: houlei houlei (53RW4EDKCW)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: houlei houlei (53RW4EDKCW)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Cheng Gong (LXNC5747X9)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Cheng Gong (LXNC5747X9)";
 				INFOPLIST_FILE = XMAdvGame/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.gordon.XMAdvGame;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "bd046e79-747d-4f9b-935e-c046a85484f0";
+				PROVISIONING_PROFILE = "f80d26e3-0553-4a8b-87f4-b5dc07b87293";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -504,12 +479,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: houlei houlei (53RW4EDKCW)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: houlei houlei (53RW4EDKCW)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Cheng Gong (LXNC5747X9)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Cheng Gong (LXNC5747X9)";
 				INFOPLIST_FILE = XMAdvGame/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.gordon.XMAdvGame;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "bd046e79-747d-4f9b-935e-c046a85484f0";
+				PROVISIONING_PROFILE = "f80d26e3-0553-4a8b-87f4-b5dc07b87293";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

@@ -2,26 +2,22 @@
 //  AppDelegate.m
 //  XMAdvGame
 //
-//  Created by lanou on 15/7/21.
-//  Copyright (c) 2015年 龚诚. All rights reserved.
+//  Created by Gordon on 15/7/21.
+//  Copyright (c) 2015年 Gordon. All rights reserved.
 //
 
 #import "AppDelegate.h"
 #import "RootViewController.h"
-@interface AppDelegate ()
-
-@end
 
 @implementation AppDelegate
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    self.window=[[UIWindow alloc]initWithFrame:[[UIScreen mainScreen]bounds]];
-    self.window.rootViewController=[[RootViewController alloc]init];
     
+    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    self.window.rootViewController = [[RootViewController alloc] init];
     [self.window makeKeyAndVisible];
-    
-    
+
     return YES;
 }
 
