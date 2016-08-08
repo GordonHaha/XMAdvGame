@@ -9,27 +9,24 @@
 import UIKit
 import SpriteKit
 
-class GameView: UIView {
+class GameView: SKView {
 
-    var skView: SKView?
     var gameScene: GameScene?
-    
-    override init(frame: CGRect) {
+    var menuView: MenuView?
+    init(frame: CGRect, menuView:MenuView) {
         super.init(frame: frame)
-        self.skView = SKView(frame: self.bounds)
-        self.skView!.backgroundColor = SKColor.whiteColor()
+        self.backgroundColor = SKColor.whiteColor()
+        self.menuView = menuView
         
-        self.gameScene = GameScene.init(size: self.bounds.size, presentView: self.skView!)
-        self.skView!.presentScene(self.gameScene)
-        
-        self.addSubview(self.skView!)
+        self.gameScene = GameScene.init(size: self.bounds.size, presentView: self, menuView: self.menuView!)
+        self.presentScene(self.gameScene)
     }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
     
-    func transmitReturnMenuDelegate(delegate: ReturnMenuDelegate) {
-        self.gameScene!.returnMenuDelegate = delegate
+    func startGame() {
+        self.gameScene!.startGame()
     }
 }
