@@ -12,7 +12,6 @@ import SpriteKit
 class GameView: UIView {
 
     var skView: SKView?
-    var returnDelegate: ReturnMenuDelegate?
     var gameScene: GameScene?
     
     override init(frame: CGRect) {
@@ -20,7 +19,7 @@ class GameView: UIView {
         self.skView = SKView(frame: self.bounds)
         self.skView!.backgroundColor = SKColor.whiteColor()
         
-        self.gameScene = GameScene(size: self.skView!.bounds.size)
+        self.gameScene = GameScene.init(size: self.bounds.size, presentView: self.skView!)
         self.skView!.presentScene(self.gameScene)
         
         self.addSubview(self.skView!)

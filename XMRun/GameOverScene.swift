@@ -18,8 +18,9 @@ class GameOverScene: SKScene {
     
     var endTime: String?
     var gameOverDelegate: GameOverSceneDelegate!
+    var presentView: SKView?
     
-    init(size: CGSize, time: CGFloat, delegate: GameOverSceneDelegate) {
+    init(size: CGSize, time: CGFloat, presentView:SKView, delegate: GameOverSceneDelegate) {
         super.init(size: size)
         self.backgroundColor = SKColor.whiteColor()
         let titleLabel: SKLabelNode = SKLabelNode(fontNamed: "Yuppy SC")
@@ -62,6 +63,7 @@ class GameOverScene: SKScene {
         returnNode.name = "returnMenu"
         self.addChild(returnNode)
 
+        self.presentView = presentView
         self.gameOverDelegate = delegate
     }
     
@@ -77,8 +79,8 @@ class GameOverScene: SKScene {
         
         if node.name == "restartGame" {
             let reveal: SKTransition = SKTransition.flipVerticalWithDuration(0.5)
-            let gameScene: GameScene = GameScene(size: self.size)
-            self.view!.presentScene(gameScene, transition: reveal)
+            let gameScene: GameScene = GameScene.init(size: self.size, presentView: self.presentView!)
+            self.presentView!.presentScene(gameScene, transition: reveal)
         } else if node.name == "returnMenu" {
             self.gameOverDelegate.gameoverSceneOnReturnMenuClicked()
             self.removeAllActions()

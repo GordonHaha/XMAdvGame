@@ -23,6 +23,8 @@ protocol ReturnMenuDelegate {
 
 class GameScene: SKScene, SKPhysicsContactDelegate, GameOverSceneDelegate {
     
+    var presentView: SKView?
+    
     var player: SKSpriteNode?
     var ground: SKSpriteNode?
     var timeLabel: SKLabelNode?
@@ -40,11 +42,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GameOverSceneDelegate {
     
     var returnMenuDelegate: ReturnMenuDelegate?
     
-    override init(size: CGSize) {
+    init(size: CGSize, presentView:SKView) {
         super.init(size: size)
         self.backgroundColor = SKColor.whiteColor()
         self.physicsWorld.gravity = CGVector(dx: 0, dy: -5)
         self.physicsWorld.contactDelegate = self
+        self.presentView = presentView
         self.lastUpdateTimeInterval = 0
         self.lastSpawnTimeInterval = 0
         self.createPlayer()
@@ -123,8 +126,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GameOverSceneDelegate {
         stage.physicsBody!.usesPreciseCollisionDetection = false;
         self.addChild(stage)
         
-        let actionMove: SKAction? = SKAction.moveToX(-self.size.width, duration: 4)
-        stage.runAction(SKAction.sequence([actionMove!, SKAction.removeFromParent()]))
+        let actionMove: SKAction? = SKAction.moveToX(-self.size.width * 2, duration: 4)
+        stage.runAction(actionMove!) { 
+            stage.removeFromParent()
+        }
     }
     
     /**
@@ -161,8 +166,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GameOverSceneDelegate {
         if time > 180 {
             object.physicsBody!.dynamic = true
         }
-    
-//        self.gameDifficultyChange()
+        
+        //        self.gameDifficultyChange()
         
         let actionMove: SKAction = SKAction.moveToX(-object.size.width / 2, duration: duration)
         let actionMoveDone: SKAction = SKAction.removeFromParent()
@@ -271,11 +276,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GameOverSceneDelegate {
         } catch let error as NSError {
             print(error.description)
         }
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
-            self.audioPlayer!.numberOfLoops = -1; //循环播放
-            self.audioPlayer!.prepareToPlay()
-            self.audioPlayer!.play()
-        })
+        self.audioPlayer!.numberOfLoops = -1; //循环播放
+        self.audioPlayer!.prepareToPlay()
+        self.audioPlayer!.play()
     }
     
     /**
@@ -321,11 +324,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GameOverSceneDelegate {
                 print(error.description)
             }
             
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), { 
-                self.audioPlayer!.numberOfLoops = -1; //循环播放
-                self.audioPlayer!.prepareToPlay()
-                self.audioPlayer!.play()
-            })
+            self.audioPlayer!.numberOfLoops = -1; //循环播放
+            self.audioPlayer!.prepareToPlay()
+            self.audioPlayer!.play()
         }
     }
     
@@ -336,7 +337,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GameOverSceneDelegate {
         let randomCount = NSTimeInterval(arc4random() % 30 + 70) / 100
         if (self.lastSpawnTimeInterval > randomCount) {
             self.lastSpawnTimeInterval = 0
-            dispatch_async(dispatch_get_main_queue(), { 
+            dispatch_async(dispatch_get_main_queue(), {
                 self.addMoveStage()
             })
         }
@@ -348,10 +349,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GameOverSceneDelegate {
         if timeSinceLast > 1 {
             timeSinceLast = 1 / 60
         }
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) { 
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
             self.updateWithTimeSinceLastUpdate(timeSinceLast)
         }
-
+        
         if self.player!.position.y <= self.ground!.position.y {
             self.gameOver()
         }
@@ -362,8 +363,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GameOverSceneDelegate {
     
     func gameOver() {
         let reveal: SKTransition = SKTransition.flipVerticalWithDuration(0.5)
-        let gameOverScene: GameOverScene = GameOverScene.init(size: self.size, time: self.timeCount! / 10, delegate: self)
-        self.view!.presentScene(gameOverScene, transition: reveal)
+        let gameOverScene: GameOverScene = GameOverScene.init(size: self.size, time: self.timeCount! / 10, presentView: self.presentView!, delegate: self)
+        self.presentView!.presentScene(gameOverScene, transition: reveal)
         self.removeAllChildren()
         if self.timer != nil {
             self.timer = nil
@@ -404,6 +405,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate, GameOverSceneDelegate {
     
     func gameoverSceneOnReturnMenuClicked() {
         self.audioPlayer = nil
-        self.returnMenuDelegate?.returnMenu()
+        self.returnMenuDelegate!.returnMenu()
     }
 }

@@ -22,13 +22,14 @@ class RootViewController: UIViewController, ReturnMenuDelegate {
         self.menuView!.startButton!.addTarget(self, action: #selector(clickedStartButton(_:)), forControlEvents: .TouchUpInside)
         self.menuView!.aboutInfoButton!.addTarget(self, action:#selector(clickedAboutInfoButton(_:)), forControlEvents: .TouchUpInside)
         self.view.addSubview(self.menuView!)
-    }
-    
-    func clickedStartButton(button: UIButton) {
+        
         self.gameView = GameView(frame: self.view.bounds)
         self.gameView!.transmitReturnMenuDelegate(self)
         self.gameView!.backgroundColor = UIColor.whiteColor()
         self.view.insertSubview(self.gameView!, belowSubview: self.menuView!)
+    }
+    
+    func clickedStartButton(button: UIButton) {
         UIView.transitionFromView(self.menuView!, toView: self.gameView!, duration: 0.5, options: .TransitionFlipFromRight, completion: nil)
     }
     
