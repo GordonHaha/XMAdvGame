@@ -13,6 +13,7 @@ class GameView: SKView {
 
     var gameScene: GameScene?
     var menuView: MenuView?
+    
     init(frame: CGRect, menuView:MenuView) {
         super.init(frame: frame)
         self.backgroundColor = SKColor.whiteColor()

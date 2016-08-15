@@ -81,12 +81,14 @@ class GameOverScene: SKScene {
             let reveal: SKTransition = SKTransition.flipVerticalWithDuration(0.5)
             self.gameScene = nil
             self.gameScene = GameScene.init(size: self.size, presentView: self.presentView!, menuView: self.menuView!)
-            
-            self.presentView!.presentScene(self.gameScene!, transition: reveal)
+            dispatch_async(dispatch_get_main_queue(), {
+                self.presentView!.presentScene(self.gameScene!, transition: reveal)
+            })
             self.gameScene!.startGame()
         } else if node.name == "returnMenu" {
-            UIView.transitionFromView(self.presentView!, toView: self.menuView!, duration: 0.5, options: .TransitionFlipFromRight, completion: nil)
-            self.removeAllActions()
+            dispatch_async(dispatch_get_main_queue(), {
+                UIView.transitionFromView(self.presentView!, toView: self.menuView!, duration: 0.5, options: .TransitionFlipFromRight, completion: nil)
+            })
         }
     }
 }

@@ -60,7 +60,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func startGame() {
         self.start = true
-        self.presentView?.presentScene(self)
+        self.presentView!.presentScene(self)
         self.resetGame()
         
         let act1 = SKAction.scaleTo(1.2, duration: 1)
@@ -94,7 +94,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func resetGame() {
         self.removeAllChildren()
-        self.removeAllActions()
         self.createPlayer()
         self.initGround()
         self.initStage()
@@ -346,9 +345,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let randomCount = NSTimeInterval(arc4random() % 30 + 70) / 100
         if (self.lastSpawnTimeInterval > randomCount) {
             self.lastSpawnTimeInterval = 0
-            dispatch_async(dispatch_get_main_queue(), {
-                self.addMoveStage()
-            })
+            self.addMoveStage()
         }
     }
     
@@ -361,9 +358,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if timeSinceLast > 1 {
             timeSinceLast = 1 / 60
         }
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
-            self.updateWithTimeSinceLastUpdate(timeSinceLast)
-        }
+        self.updateWithTimeSinceLastUpdate(timeSinceLast)
+        
         
         if self.player!.position.y <= self.ground!.position.y {
             self.gameOver()
