@@ -11,36 +11,36 @@ import SpriteKit
 
 class GameOverScene: SKScene {
     
-    var presentView: SKView?
-    var menuView: MenuView?
+    private var presentView: SKView?
+    private var menuView: MenuView?
     var gameScene: GameScene?
     
-    var titleLabel: SKLabelNode?
-    var subtitleLabel: SKLabelNode?
+    private var titleLabel: SKLabelNode?
+    private var subtitleLabel: SKLabelNode?
     
     init(size: CGSize, presentView:SKView, menuView:MenuView) {
         super.init(size: size)
-        self.backgroundColor = SKColor.whiteColor()
+        self.backgroundColor = SKColor.white
         self.titleLabel = SKLabelNode(fontNamed: "Yuppy SC")
         self.titleLabel!.text = "啊！小明掉下去了！"
         self.titleLabel!.fontSize = 37
-        self.titleLabel!.fontColor = SKColor.blackColor()
+        self.titleLabel!.fontColor = SKColor.black
         self.titleLabel!.position = CGPoint.init(x: self.size.width / 2, y: self.size.height / 2 + 160)
         self.addChild(self.titleLabel!)
         
         self.subtitleLabel = SKLabelNode(fontNamed: "Yuppy SC")
         self.subtitleLabel!.fontSize = 20
-        self.subtitleLabel!.fontColor = SKColor.blackColor()
+        self.subtitleLabel!.fontColor = SKColor.black
         self.subtitleLabel!.position = CGPoint.init(x: self.size.width / 2, y: self.size.height / 2 + 50)
         self.addChild(self.subtitleLabel!)
         
-        let startNode: SKSpriteNode = SKSpriteNode.init(color: SKColor.clearColor(), size: CGSize(width: 210, height: 60))
+        let startNode: SKSpriteNode = SKSpriteNode.init(color: SKColor.clear, size: CGSize(width: 210, height: 60))
         startNode.texture = SKTexture(imageNamed: "restartGame")
         startNode.position = CGPoint.init(x: self.size.width / 2, y: self.size.height / 2 - 50)
         startNode.name = "restartGame"
         self.addChild(startNode)
         
-        let returnNode: SKSpriteNode = SKSpriteNode.init(color: SKColor.clearColor(), size: CGSize(width: 210, height: 60))
+        let returnNode: SKSpriteNode = SKSpriteNode.init(color: SKColor.clear, size: CGSize(width: 210, height: 60))
         returnNode.texture = SKTexture(imageNamed: "returnMenu")
         returnNode.position = CGPoint.init(x: self.size.width / 2, y: startNode.frame.origin.y - 60)
         returnNode.name = "returnMenu"
@@ -72,23 +72,24 @@ class GameOverScene: SKScene {
         self.subtitleLabel!.text = String(format: "不可思议！你家小明竟然坚持了%0.1f秒", time)
     }
     
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         let touch: UITouch = touches.first!
-        let touchLoaction: CGPoint = touch.locationInNode(self)
-        let node: SKNode = self.nodeAtPoint(touchLoaction)
+        let touchLoaction: CGPoint = touch.location(in:self)
+        let node: SKNode = self.atPoint(touchLoaction)
         
         if node.name == "restartGame" {
-            let reveal: SKTransition = SKTransition.flipVerticalWithDuration(0.5)
+            let reveal: SKTransition = SKTransition.flipVertical(withDuration: 0.5)
             self.gameScene = nil
             self.gameScene = GameScene.init(size: self.size, presentView: self.presentView!, menuView: self.menuView!)
-            dispatch_async(dispatch_get_main_queue(), {
+            DispatchQueue.main.async {
                 self.presentView!.presentScene(self.gameScene!, transition: reveal)
-            })
+            }
+            
             self.gameScene!.startGame()
         } else if node.name == "returnMenu" {
-            dispatch_async(dispatch_get_main_queue(), {
-                UIView.transitionFromView(self.presentView!, toView: self.menuView!, duration: 0.5, options: .TransitionFlipFromRight, completion: nil)
-            })
+            DispatchQueue.main.async {
+                UIView.transition(from: self.presentView!, to: self.menuView!, duration: 0.5, options: .transitionFlipFromRight, completion: nil)
+            }
         }
     }
 }
