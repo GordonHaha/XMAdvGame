@@ -10,40 +10,41 @@ import UIKit
 import SpriteKit
 import AVFoundation
 
-let kRUN_PLAYER = "runPlayer"
+private let kRUN_PLAYER = "runPlayer"
 
-let kPlayerCategaory: __uint32_t = 0x1 << 0
-let kObjectCategaory: __uint32_t = 0x1 << 1
-let kGroundCategaory: __uint32_t = 0x1 << 2
-let kStageCategaory: __uint32_t = 0x1 << 3
+private let kPlayerCategaory: __uint32_t = 0x1 << 0
+private let kObjectCategaory: __uint32_t = 0x1 << 1
+private let kGroundCategaory: __uint32_t = 0x1 << 2
+private let kStageCategaory: __uint32_t = 0x1 << 3
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
     
-    var presentView: SKView?
-    var gameOverScene: GameOverScene?
-    var player: SKSpriteNode?
-    var ground: SKSpriteNode?
-    var countLabel: SKLabelNode?
-    var timeLabel: SKLabelNode?
-    var stage: SKSpriteNode?
-    var menuView: MenuView?
+    private var presentView: SKView?
+    private var gameOverScene: GameOverScene?
+    private var player: SKSpriteNode?
+    private var ground: SKSpriteNode?
+    private var countLabel: SKLabelNode?
+    private var timeLabel: SKLabelNode?
+    private var stage: SKSpriteNode?
+    private var menuView: MenuView?
     
-    var lastSpawnTimeInterval: NSTimeInterval?
-    var lastUpdateTimeInterval: NSTimeInterval?
+    private var lastSpawnTimeInterval: TimeInterval
+    private var lastUpdateTimeInterval: TimeInterval
     
-    var timer: dispatch_source_t?
-    var timeCount: CGFloat?
+    private var timer: DispatchSourceTimer?
+    private var timeCount: CGFloat
     
-    var playerRunFrames: NSArray?
-    var isJumping: Bool?
+    private var playerRunFrames: NSArray?
+    private var isJumping: Bool
     
-    var audioPlayer: AVAudioPlayer?
+    private var audioPlayer: AVAudioPlayer?
     
-    var start: Bool?
+    private var start: Bool
+    
     init(size: CGSize, presentView:SKView, menuView:MenuView) {
         super.init(size: size)
         self.start = false
-        self.backgroundColor = SKColor.whiteColor()
+        self.backgroundColor = SKColor.white
         self.physicsWorld.gravity = CGVector(dx: 0, dy: -5)
         self.physicsWorld.contactDelegate = self
         self.presentView = presentView
@@ -63,29 +64,29 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.presentView!.presentScene(self)
         self.resetGame()
         
-        let act1 = SKAction.scaleTo(1.2, duration: 1)
-        let act2 = SKAction.scaleTo(1.3, duration: 1)
-        let act3 = SKAction.scaleTo(1.4, duration: 1)
-        let act4 = SKAction.scaleTo(1.5, duration: 1)
+        let act1 = SKAction.scale(to:1.2, duration: 1)
+        let act2 = SKAction.scale(to:1.3, duration: 1)
+        let act3 = SKAction.scale(to:1.4, duration: 1)
+        let act4 = SKAction.scale(to:1.5, duration: 1)
         
-        self.countLabel!.runAction(act1) {
+        self.countLabel!.run(act1) {
             self.countLabel!.text = "2"
-            self.countLabel!.runAction(act2, completion: {
+            self.countLabel!.run(act2, completion: {
                 self.countLabel!.text = "1"
-                self.countLabel!.runAction(act3, completion: {
+                self.countLabel!.run(act3, completion: {
                     self.countLabel!.text = "小明快跑！"
                     
                     //倒计时结束开始游戏计时
                     self.startTiming()
-                    self.countLabel!.runAction(act4, completion: {
+                    self.countLabel!.run(act4, completion: {
                         self.countLabel!.removeFromParent()
                     })
                 })
             })
         }
         
-        let actionMove: SKAction? = SKAction.moveToX(-self.size.width * 2, duration: 4)
-        self.stage!.runAction(actionMove!) {
+        let actionMove: SKAction? = SKAction.moveTo(x:-self.size.width * 2, duration: 4)
+        self.stage!.run(actionMove!) {
             self.stage!.removeFromParent()
         }
         
@@ -106,10 +107,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func createCountDownLabel() {
         
         self.countLabel = SKLabelNode(fontNamed: "Yuppy SC")
-        self.countLabel!.position = CGPoint(x: CGRectGetMidX(self.frame), y: CGRectGetMidY(self.frame) + 110)
+        self.countLabel!.position = CGPoint(x: self.frame.midX, y: self.frame.midY + 110)
         self.countLabel!.text = "3"
         self.countLabel!.fontSize = 50
-        self.countLabel!.fontColor = SKColor.blackColor()
+        self.countLabel!.fontColor = SKColor.black
         self.addChild(self.countLabel!)
     }
     
@@ -118,9 +119,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
      */
     func initGround() {
         self.ground = SKSpriteNode(texture: SKTexture(imageNamed: "sceneView_ground.png"), size: CGSize(width: self.size.width, height: 30))
-        self.ground!.position = CGPoint(x: CGRectGetMidX(self.frame), y: CGRectGetMidY(self.frame) - 165)
-        self.ground!.physicsBody = SKPhysicsBody.init(rectangleOfSize: self.ground!.size)
-        self.ground!.physicsBody!.dynamic = false
+        self.ground!.position = CGPoint(x: self.frame.midX, y: self.frame.midY - 165)
+        self.ground!.physicsBody = SKPhysicsBody.init(rectangleOf: self.ground!.size)
+        self.ground!.physicsBody!.isDynamic = false
         self.ground!.physicsBody!.affectedByGravity = false
         self.ground!.physicsBody!.contactTestBitMask = kPlayerCategaory
         self.ground!.physicsBody!.categoryBitMask = kGroundCategaory
@@ -132,10 +133,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
      创建初始平台
      */
     func initStage() {
-        self.stage = SKSpriteNode(color: SKColor.blackColor(), size: CGSize.init(width: self.size.width * 3, height: 250))
-        self.stage!.position = CGPoint(x: self.size.width, y: CGRectGetMidY(self.frame) - 50)
-        self.stage!.physicsBody = SKPhysicsBody(rectangleOfSize: self.stage!.size)
-        self.stage!.physicsBody!.dynamic = false;
+        self.stage = SKSpriteNode(color: SKColor.black, size: CGSize.init(width: self.size.width * 3, height: 250))
+        self.stage!.position = CGPoint(x: self.size.width, y: self.frame.midY - 50)
+        self.stage!.physicsBody = SKPhysicsBody(rectangleOf: self.stage!.size)
+        self.stage!.physicsBody!.isDynamic = false;
         self.stage!.physicsBody!.affectedByGravity = false;
         self.stage!.physicsBody!.categoryBitMask = kStageCategaory;
         self.stage!.physicsBody!.collisionBitMask = kPlayerCategaory;
@@ -148,11 +149,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
      添加移动平台
      */
     func addMoveStage() {
-        var duration: NSTimeInterval = 2
+        var duration: TimeInterval = 2
         var width = arc4random() % 200 + 50
-        var color: SKColor = SKColor.blackColor()
+        var color: SKColor = SKColor.black
         
-        let time = self.timeCount! / 10
+        let time = self.timeCount / 10
         if time > 60 {
             width = arc4random() % 100 + 150
             duration = 1.9
@@ -164,26 +165,26 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         let object = SKSpriteNode(color: color, size: CGSize.init(width: Int(width), height: 5))
         let x = self.size.width * 1.2 + object.size.width
-        let y = CGRectGetMidY(self.frame) - CGFloat((arc4random() % 60 + 40))
+        let y = self.frame.midY - CGFloat((arc4random() % 60 + 40))
         object.position = CGPoint.init(x: x, y: y)
-        object.physicsBody = SKPhysicsBody(rectangleOfSize: object.size)
+        object.physicsBody = SKPhysicsBody(rectangleOf: object.size)
         object.physicsBody!.categoryBitMask = kObjectCategaory
         object.physicsBody!.collisionBitMask = kPlayerCategaory
         object.physicsBody!.contactTestBitMask = kPlayerCategaory
         object.physicsBody!.allowsRotation = false
         object.physicsBody!.affectedByGravity = false
-        object.physicsBody!.dynamic = false
+        object.physicsBody!.isDynamic = false
         self.addChild(object)
         
         if time > 180 {
-            object.physicsBody!.dynamic = true
+            object.physicsBody!.isDynamic = true
         }
         
         //        self.gameDifficultyChange()
         
-        let actionMove: SKAction = SKAction.moveToX(-object.size.width / 2, duration: duration)
+        let actionMove: SKAction = SKAction.moveTo(x: -object.size.width / 2, duration: duration)
         let actionMoveDone: SKAction = SKAction.removeFromParent()
-        object.runAction(SKAction.sequence([actionMove, actionMoveDone]))
+        object.run(SKAction.sequence([actionMove, actionMoveDone]))
     }
     
     /**
@@ -200,17 +201,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         for i in 1...numImages {
             let textrueName = String(format: "perRun%d", i)
             let frame:SKTexture? = playerAnimatedAtlas?.textureNamed(textrueName)
-            runFrames?.addObject(frame!)
+            runFrames?.add(frame!)
         }
         self.playerRunFrames = runFrames
         
         //创建Sprite，并将其位置设置为屏幕左侧，然后将其添加到场景中
         let frame: SKTexture = self.playerRunFrames![0] as! SKTexture
         self.player = SKSpriteNode(texture: frame, size: CGSize(width: 30, height: 40))
-        self.player!.position = CGPoint(x: 40, y: CGRectGetMidY(self.frame) + 95)
+        self.player!.position = CGPoint(x: 40, y: self.frame.midY + 95)
         //物理属性设置
-        self.player!.physicsBody = SKPhysicsBody(rectangleOfSize: self.player!.size)
-        self.player!.physicsBody!.dynamic = true
+        self.player!.physicsBody = SKPhysicsBody(rectangleOf: self.player!.size)
+        self.player!.physicsBody!.isDynamic = true
         self.player!.physicsBody!.friction = 0;
         self.player!.physicsBody!.categoryBitMask = kPlayerCategaory
         self.player!.physicsBody!.contactTestBitMask = kObjectCategaory | kGroundCategaory | kStageCategaory
@@ -224,8 +225,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
      人物奔跑动画
      */
     func runPlayer() {
-        let act: SKAction? = SKAction.repeatActionForever(SKAction.animateWithTextures(self.playerRunFrames as! [SKTexture], timePerFrame: 0.03, resize: false, restore: true))
-        self.player!.runAction(act!, withKey: kRUN_PLAYER)
+        let act: SKAction? = SKAction.repeatForever(SKAction.animate(with: self.playerRunFrames as! [SKTexture], timePerFrame: 0.03, resize: false, restore: true))
+        self.player!.run(act!, withKey: kRUN_PLAYER)
     }
     
     /**
@@ -238,13 +239,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.player!.removeAllActions()
         //跳跃时动画
         let duration = 0.3
-        let jumpAction = SKAction.animateWithTextures(self.playerRunFrames as! [SKTexture], timePerFrame: 0.08, resize: false, restore: true)
-        let moveUpAction = SKAction.moveTo(CGPoint.init(x: self.player!.position.x, y: self.player!.position.y + 90), duration: duration)
-        let holdAction = SKAction.waitForDuration(0.03)
+        let jumpAction = SKAction.animate(with: self.playerRunFrames as! [SKTexture], timePerFrame: 0.08, resize: false, restore: true)
+        let moveUpAction = SKAction.move(to: CGPoint.init(x: self.player!.position.x, y: self.player!.position.y + 90), duration: duration)
+        let holdAction = SKAction.wait(forDuration: 0.03)
         
         let actions = [jumpAction, SKAction.sequence([moveUpAction, holdAction])]
         weak var weakSelf: GameScene? = self
-        weakSelf!.player!.runAction(SKAction.group(actions)) {
+        weakSelf!.player!.run(SKAction.group(actions)) {
             weakSelf!.runPlayer()
         }
     }
@@ -254,8 +255,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
      */
     func createTimeLabel() {
         self.timeLabel = SKLabelNode(fontNamed: "Yuppy SC")
-        self.timeLabel?.fontColor = SKColor.blackColor()
-        self.timeLabel!.position = CGPoint(x: CGRectGetMidX(self.frame), y: CGRectGetMidY(self.frame) + 180)
+        self.timeLabel?.fontColor = SKColor.black
+        self.timeLabel!.position = CGPoint(x: self.frame.midX, y: self.frame.midY + 180)
         self.timeLabel!.fontSize = 50
         self.timeLabel!.text = "0.0"
         self.timeCount = 0.0
@@ -270,19 +271,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.timeCount = 0.0
         
         let interval: __uint64_t = NSEC_PER_SEC / 10
-        let timeQueue: dispatch_queue_t = dispatch_queue_create("timeQueue", DISPATCH_QUEUE_CONCURRENT)
-        weak var weakSelf: GameScene? = self
-        weakSelf!.timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, timeQueue)
-        dispatch_source_set_timer(weakSelf!.timer!, dispatch_time(DISPATCH_TIME_NOW, 0), interval, 0)
-        dispatch_source_set_event_handler(weakSelf!.timer!) {
-            weakSelf?.updateTime()
+        let timeQueue = DispatchQueue(label: "timeQueue", attributes: .concurrent)
+        self.timer! = DispatchSource.makeTimerSource(flags: [], queue: timeQueue)
+        self.timer!.schedule(wallDeadline: .now(), repeating: interval)
+        self.timer!.setEventHandler {
+            self.updateTime()
         }
-        dispatch_resume(weakSelf!.timer!)
+        self.timer!.resume()
         
         
-        let backgroundMusicURL: NSURL = NSBundle.mainBundle().URLForResource("bgm1", withExtension: "caf")!
+        let backgroundMusicURL: NSURL = Bundle.main.url(forResource: "bgm1", withExtension: "caf")! as NSURL
         do {
-            self.audioPlayer = try AVAudioPlayer.init(contentsOfURL: backgroundMusicURL)
+            self.audioPlayer = try AVAudioPlayer.init(contentsOf: backgroundMusicURL as URL)
         } catch let error as NSError {
             print(error.description)
         }
@@ -294,41 +294,40 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
      时间刷新
      */
     func updateTime() {
-        self.timeCount!++
+        self.timeCount += 1
         
         //应在主线程刷新UI
-        weak var weakSelf: GameScene? = self
-        dispatch_async(dispatch_get_main_queue(), {
-            weakSelf!.timeLabel!.text = String(format: "%.1f", self.timeCount! / 10)
-        })
+        DispatchQueue.main.async {
+            self.timeLabel!.text = String(format: "%.1f", self.timeCount / 10)
+        }
     }
     
     /**
      游戏难度递增
      */
     func gameDifficultyChange() {
-        let act: SKAction = SKAction.moveToX(-self.size.width, duration: 5)
+        let act: SKAction = SKAction.moveTo(x: -self.size.width, duration: 5)
         let countLabel: SKLabelNode = SKLabelNode(fontNamed: "Yuppy SC")
         countLabel.position = CGPoint(x: self.size.width + countLabel.frame.size.width / 2, y: self.size.height / 2 + 110)
-        countLabel.fontColor = SKColor.blackColor()
+        countLabel.fontColor = SKColor.black
         countLabel.fontSize = 20
         
-        let time = self.timeCount! / 10
+        let time = self.timeCount / 10
         if time > 60 && time < 60.3 {
             countLabel.text = "小明你竟然跑了1分钟了，看来得给你加点难度了"
             self.addChild(countLabel)
-            countLabel.runAction(act, completion: {
+            countLabel.run(act, completion: {
                 countLabel.removeFromParent()
             })
         } else if time > 180 && time < 180.3 {
             countLabel.text = "3分钟了！可是没有人能在这个游戏撑过4分钟！你也不行！"
             self.addChild(countLabel)
-            countLabel.runAction(act, completion: {
+            countLabel.run(act, completion: {
                 countLabel.removeFromParent()
             })
-            let backgroundMusicURL: NSURL = NSBundle.mainBundle().URLForResource("bgm2", withExtension: "caf")!
+            let backgroundMusicURL: URL = Bundle.main.url(forResource: "bgm2", withExtension: "caf")!
             do {
-                self.audioPlayer = try AVAudioPlayer.init(contentsOfURL: backgroundMusicURL)
+                self.audioPlayer = try AVAudioPlayer.init(contentsOf: backgroundMusicURL as URL)
             } catch let error as NSError {
                 print(error.description)
             }
@@ -339,42 +338,42 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     
-    func updateWithTimeSinceLastUpdate(timeSinceLast: NSTimeInterval?) {
+    func updateWithTimeSinceLastUpdate(timeSinceLast: TimeInterval?) {
         //将上次更新（update调用）的时间追加到self.lastSpawnTimeInterval中
-        self.lastSpawnTimeInterval = self.lastSpawnTimeInterval! + timeSinceLast!
-        let randomCount = NSTimeInterval(arc4random() % 30 + 70) / 100
+        self.lastSpawnTimeInterval = self.lastSpawnTimeInterval + timeSinceLast!
+        let randomCount = TimeInterval(arc4random() % 30 + 70) / 100
         if (self.lastSpawnTimeInterval > randomCount) {
             self.lastSpawnTimeInterval = 0
             self.addMoveStage()
         }
     }
     
-    override func update(currentTime: NSTimeInterval) {
+    override func update(_ currentTime: TimeInterval) {
         if self.start == false {
             return
         }
-        var timeSinceLast: NSTimeInterval = currentTime - self.lastUpdateTimeInterval!
+        var timeSinceLast: TimeInterval = currentTime - self.lastUpdateTimeInterval
         self.lastUpdateTimeInterval = currentTime
         if timeSinceLast > 1 {
             timeSinceLast = 1 / 60
         }
-        self.updateWithTimeSinceLastUpdate(timeSinceLast)
+        self.updateWithTimeSinceLastUpdate(timeSinceLast: timeSinceLast)
         
         
         if self.player!.position.y <= self.ground!.position.y {
             self.gameOver()
         }
         if self.player!.position.x <= 40 {
-            self.player!.runAction(SKAction.moveToX(40, duration: 1))
+            self.player!.run(SKAction.moveTo(x: 40, duration: 1))
         }
     }
     
     func gameOver() {
-        let reveal: SKTransition = SKTransition.flipVerticalWithDuration(0.5)
+        let reveal: SKTransition = SKTransition.flipVertical(withDuration: 0.5)
         self.gameOverScene = nil
         self.gameOverScene = GameOverScene.init(size: self.size, presentView: self.presentView!, menuView: self.menuView!)
         self.gameOverScene!.gameScene = self
-        self.gameOverScene!.refreshTime(self.timeCount! / 10)
+        self.gameOverScene!.refreshTime(time: self.timeCount / 10)
         self.presentView!.presentScene(self.gameOverScene!, transition: reveal)
         self.removeAllChildren()
         if self.timer != nil {
@@ -385,7 +384,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.start = false
     }
     
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         if (self.isJumping != false) {
             return
         }
@@ -409,7 +408,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             } else if (secondBody!.categoryBitMask & kObjectCategaory) != 0 {
                 self.isJumping = contact.contactPoint.y > firstBody!.node!.position.y
             } else if (secondBody!.categoryBitMask & kGroundCategaory) != 0 {
-                self.runAction(SKAction.playSoundFileNamed("gameOverSound.caf", waitForCompletion: false))
+                self.run(SKAction.playSoundFileNamed("gameOverSound.caf", waitForCompletion: false))
                 self.gameOver()
             }
         }

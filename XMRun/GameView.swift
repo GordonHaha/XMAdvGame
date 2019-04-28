@@ -10,13 +10,13 @@ import UIKit
 import SpriteKit
 
 class GameView: SKView {
-
-    var gameScene: GameScene?
-    var menuView: MenuView?
+    
+    private var gameScene: GameScene?
+    private var menuView: MenuView?
     
     init(frame: CGRect, menuView:MenuView) {
         super.init(frame: frame)
-        self.backgroundColor = SKColor.whiteColor()
+        self.backgroundColor = SKColor.white
         self.menuView = menuView
         
         self.gameScene = GameScene.init(size: self.bounds.size, presentView: self, menuView: self.menuView!)
