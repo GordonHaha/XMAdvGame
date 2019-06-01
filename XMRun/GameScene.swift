@@ -93,6 +93,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.runPlayer()
     }
     
+    
+    
+    
+    
     func resetGame() {
         self.removeAllChildren()
         self.createPlayer()
