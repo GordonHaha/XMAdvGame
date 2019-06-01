@@ -35,6 +35,8 @@ class RootViewController: UIViewController {
         }
     }
     
+    
+    
     @objc func clickedAboutInfoButton(button: UIButton) {
         let alertView: UIAlertView = UIAlertView.init(title: "关于游戏", message: "本游戏内音、图等资源皆来源于网络，仅供学习，交流使用。版权归原作者所有。对游戏有任何反馈意见可邮件至gordonhaha@qq.com。", delegate: nil, cancelButtonTitle: "谢谢关注！")
         alertView.show()
